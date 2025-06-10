@@ -44,8 +44,8 @@ export default function Page() {
       <Section className="bg-white py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Why Choose Our Spaces</h2>
-            <p className="mt-4 text-lg text-gray-600">Everything you need for a successful sports event</p>
+            <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Why Choose Our Spaces</h2>
+            <p className="mt-4 text-xl text-gray-600">Everything you need for a successful sports event</p>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -54,7 +54,7 @@ export default function Page() {
                 <div className="mb-2 rounded-full bg-teal-100 p-2 w-10 h-10 flex items-center justify-center">
                   <MapPin className="h-5 w-5 text-teal-600" />
                 </div>
-                <CardTitle>Prime Location</CardTitle>
+                <CardTitle className="text-2xl">Prime Location</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
@@ -69,7 +69,7 @@ export default function Page() {
                 <div className="mb-2 rounded-full bg-teal-100 p-2 w-10 h-10 flex items-center justify-center">
                   <Users className="h-5 w-5 text-teal-600" />
                 </div>
-                <CardTitle>Flexible Capacity</CardTitle>
+                <CardTitle className="text-2xl">Flexible Capacity</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
@@ -84,7 +84,7 @@ export default function Page() {
                 <div className="mb-2 rounded-full bg-teal-100 p-2 w-10 h-10 flex items-center justify-center">
                   <CalendarDays className="h-5 w-5 text-teal-600" />
                 </div>
-                <CardTitle>Multi-Purpose Facilities</CardTitle>
+                <CardTitle className="text-2xl">Multi-Purpose Facilities</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
@@ -99,7 +99,7 @@ export default function Page() {
                 <div className="mb-2 rounded-full bg-teal-100 p-2 w-10 h-10 flex items-center justify-center">
                   <DollarSign className="h-5 w-5 text-teal-600" />
                 </div>
-                <CardTitle>Competitive Rates</CardTitle>
+                <CardTitle className="text-2xl">Competitive Rates</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
