@@ -66,7 +66,7 @@ const outdoorFacilities = [
   {
     title: "Outdoor Netball Pitch",
     description: "Full-size regulation netball court with professional markings and posts",
-    image: "/netball-court-new.jpg",
+    image: "/netball-court-new.png",
     badge: "Featured",
     dimensions: "Full regulation size court",
     features: [
@@ -82,7 +82,7 @@ const outdoorFacilities = [
   {
     title: "The Sports Field",
     description: "Expansive outdoor grass field perfect for football, rugby, and large-scale events",
-    image: "/sports-field-new.jpg",
+    image: "/sports-field-new.png",
     dimensions: "Large open grass area",
     features: [
       "Suitable for full-size football pitch",

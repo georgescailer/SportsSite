@@ -21,12 +21,12 @@ const slides = [
     description: "Professional dance studio with mirrors and sprung floor",
   },
   {
-    image: "/sports-field-new.jpg",
+    image: "/sports-field-new.png",
     title: "The Sports Field",
     description: "Expansive outdoor grass field for football and athletics",
   },
   {
-    image: "/netball-court-new.jpg",
+    image: "/netball-court-new.png",
     title: "Outdoor Netball Pitch",
     description: "Full-size regulation netball court",
   },
