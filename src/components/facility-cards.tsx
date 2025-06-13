@@ -1,13 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { CheckCircle2 } from "lucide-react"
+import { CheckCircle2, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import FacilityModal from "./facility-modal"
+import ContactModal from "./contact-modal"
+import { motion } from "framer-motion"
 
 const indoorFacilities = [
   {
@@ -66,7 +68,7 @@ const outdoorFacilities = [
   {
     title: "Outdoor Netball Pitch",
     description: "Full-size regulation netball court with professional markings and posts",
-    image: "/netball-court-new.png",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-06-02%20at%2014.36.16.png-qTGV0pTNSfJTmoVQDwFkQjd4njL3cq.jpeg",
     badge: "Featured",
     dimensions: "Full regulation size court",
     features: [
@@ -82,7 +84,7 @@ const outdoorFacilities = [
   {
     title: "The Sports Field",
     description: "Expansive outdoor grass field perfect for football, rugby, and large-scale events",
-    image: "/sports-field-new.png",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-06-02%20at%2014.36.36.png-up748yssKc98mP6euKWnX4SLTlISqb.jpeg",
     dimensions: "Large open grass area",
     features: [
       "Suitable for full-size football pitch",
@@ -99,6 +101,9 @@ const outdoorFacilities = [
 export default function FacilityCards() {
   const [selectedFacility, setSelectedFacility] = useState<any>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState("indoor")
+  const [contactModalOpen, setContactModalOpen] = useState(false)
+  const [selectedFacilityForContact, setSelectedFacilityForContact] = useState<any>(null)
 
   const openModal = (facility: any) => {
     setSelectedFacility(facility)
@@ -110,51 +115,82 @@ export default function FacilityCards() {
     setSelectedFacility(null)
   }
 
+  const openContactModal = (facility: any) => {
+    setSelectedFacilityForContact(facility)
+    setContactModalOpen(true)
+  }
+
+  const closeContactModal = () => {
+    setContactModalOpen(false)
+    setSelectedFacilityForContact(null)
+  }
+
   return (
     <>
-      <Tabs defaultValue="indoor" className="w-full">
-        <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
-          <TabsTrigger value="indoor">Indoor Facilities</TabsTrigger>
-          <TabsTrigger value="outdoor">Outdoor Facilities</TabsTrigger>
+      <Tabs defaultValue="indoor" onValueChange={setActiveTab} className="w-full">
+        <TabsList className="relative grid w-full max-w-md mx-auto grid-cols-2 mb-8 bg-gray-100 p-1 rounded-full">
+          <TabsTrigger className="relative z-10 rounded-lg text-gray-600 data-[state=active]:text-gray-900" value="indoor">
+            Indoor Facilities
+            {activeTab === "indoor" && (
+              <motion.div
+                layoutId="active-tab-indicator"
+                className="absolute inset-0 z-[-1] bg-white rounded-full shadow-sm"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            )}
+          </TabsTrigger>
+          <TabsTrigger className="relative z-10 rounded-lg text-gray-600 data-[state=active]:text-gray-900" value="outdoor">
+            Outdoor Facilities
+            {activeTab === "outdoor" && (
+              <motion.div
+                layoutId="active-tab-indicator"
+                className="absolute inset-0 z-[-1] bg-white rounded-full shadow-sm"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            )}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="indoor">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {indoorFacilities.map((facility, index) => (
-              <Card key={index} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
-                <div className="aspect-video w-full overflow-hidden" onClick={() => openModal(facility)}>
+              <div key={index} className="flex flex-col rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group bg-white overflow-hidden">
+                <div className="aspect-video w-full cursor-pointer" onClick={() => openModal(facility)}>
                   <img
                     src={facility.image || "/placeholder.svg"}
                     alt={facility.title}
-                    className="h-full w-full object-cover transition-transform hover:scale-105"
+                    className="h-full w-full object-cover"
                   />
                 </div>
-                <CardHeader onClick={() => openModal(facility)} className="cursor-pointer">
-                  <div className="flex justify-between items-center">
-                    <CardTitle>{facility.title}</CardTitle>
-                    {facility.badge && <Badge>{facility.badge}</Badge>}
-                  </div>
-                  <CardDescription>{facility.description}</CardDescription>
-                </CardHeader>
-                <CardContent onClick={() => openModal(facility)} className="cursor-pointer">
-                  <ul className="space-y-2">
+
+                <div className="bg-teal-600 text-white p-5 cursor-pointer" onClick={() => openModal(facility)}>
+                  <h3 className="text-xl font-bold mb-2">{facility.title}</h3>
+                  <p className="text-teal-100">{facility.description}</p>
+                </div>
+
+                <div className="p-5 flex-1">
+                  <ul className="space-y-3">
                     {facility.features.slice(0, 4).map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center gap-2">
-                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      <li key={featureIndex} className="flex items-start gap-2 text-gray-700">
+                        <CheckCircle2 className="h-5 w-5 text-teal-600 mt-0.5 flex-shrink-0" />
                         <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <div className="text-lg font-semibold text-gray-600">Enquire for rates</div>
-                  <Button className="bg-teal-600 hover:bg-teal-700" asChild>
-                    <Link href={`mailto:thevillagestmartins@gmail.com?subject=${facility.emailSubject}`}>
-                      Enquire Now
-                    </Link>
+                </div>
+
+                <div className="px-5 pb-5 mt-auto flex justify-between">
+                  <a onClick={() => openModal(facility)} className="text-teal-600 hover:text-teal-700 cursor-pointer">
+                    View Details
+                  </a>
+                  <Button 
+                    className="bg-teal-600 hover:bg-teal-700 text-white" 
+                    onClick={() => openContactModal(facility)}
+                  >
+                    Enquire Now
                   </Button>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </TabsContent>
@@ -162,47 +198,58 @@ export default function FacilityCards() {
         <TabsContent value="outdoor">
           <div className="grid gap-8 md:grid-cols-2">
             {outdoorFacilities.map((facility, index) => (
-              <Card key={index} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
-                <div className="aspect-video w-full overflow-hidden" onClick={() => openModal(facility)}>
+              <div key={index} className="flex flex-col rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group bg-white overflow-hidden">
+                <div className="aspect-video w-full cursor-pointer" onClick={() => openModal(facility)}>
                   <img
                     src={facility.image || "/placeholder.svg"}
                     alt={facility.title}
-                    className="h-full w-full object-cover transition-transform hover:scale-105"
+                    className="h-full w-full object-cover"
                   />
                 </div>
-                <CardHeader onClick={() => openModal(facility)} className="cursor-pointer">
-                  <div className="flex justify-between items-center">
-                    <CardTitle>{facility.title}</CardTitle>
-                    {facility.badge && <Badge>{facility.badge}</Badge>}
-                  </div>
-                  <CardDescription>{facility.description}</CardDescription>
-                </CardHeader>
-                <CardContent onClick={() => openModal(facility)} className="cursor-pointer">
-                  <ul className="space-y-2">
+
+                <div className="bg-teal-600 text-white p-5 cursor-pointer" onClick={() => openModal(facility)}>
+                  <h3 className="text-xl font-bold mb-2">{facility.title}</h3>
+                  <p className="text-teal-100">{facility.description}</p>
+                </div>
+
+                <div className="p-5 flex-1">
+                  <ul className="space-y-3">
                     {facility.features.slice(0, 4).map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center gap-2">
-                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      <li key={featureIndex} className="flex items-start gap-2 text-gray-700">
+                        <CheckCircle2 className="h-5 w-5 text-teal-600 mt-0.5 flex-shrink-0" />
                         <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <div className="text-lg font-semibold text-gray-600">Enquire for rates</div>
-                  <Button className="bg-teal-600 hover:bg-teal-700" asChild>
-                    <Link href={`mailto:thevillagestmartins@gmail.com?subject=${facility.emailSubject}`}>
-                      Enquire Now
-                    </Link>
+                </div>
+
+                <div className="px-5 pb-5 mt-auto flex justify-between">
+                  <a onClick={() => openModal(facility)} className="text-teal-600 hover:text-teal-700 cursor-pointer">
+                    View Details
+                  </a>
+                  <Button 
+                    className="bg-teal-600 hover:bg-teal-700 text-white" 
+                    onClick={() => openContactModal(facility)}
+                  >
+                    Enquire Now
                   </Button>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </TabsContent>
       </Tabs>
 
-      {/* Modal */}
+      {/* Facility Details Modal */}
       {selectedFacility && <FacilityModal isOpen={isModalOpen} onClose={closeModal} facility={selectedFacility} />}
+      
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={contactModalOpen} 
+        onClose={closeContactModal} 
+        facilityName={selectedFacilityForContact?.title}
+        subject={selectedFacilityForContact?.emailSubject}
+      />
     </>
   )
 }
